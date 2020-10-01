@@ -1,18 +1,13 @@
-# table2json - tiny table structure reader
-table2json is a minimalistic database structure reader. It can load structure data for postgresql or sql-server. It returns json data for the following items:
+/*
 
-* tables
-* table columns ( names, types, default values, identity usage, etc. )
-* primary keys
-* foreign keys
-* unique indexes
+	This file is intended only as usage demonstration.
+	This package should be used as a dependency of your programs.
+	If you copy the code below you will need to update the require statement.
 
-table2json was tested on postgres and sql-server but as it relies on **information_schema** views it might be plugged in to other DBMS *with some effort*.
+*/
 
-## How to use it?
-
-```js
-const table2json = require( 'table2json' );
+//const table2json = require( 'table2json' );
+const table2json = require( './index' );
 const fs = require( 'fs' ).promises;
 
 (async function () {
@@ -42,13 +37,6 @@ const fs = require( 'fs' ).promises;
 	// now tableData contains table objects
 	// what you do with them is up to you
 	// here we simply save them as files
-	const filePromises = tableData.map(
-		tableObject => fs.writeFile(
-			`output/${tableObject.tablename}.json`,
-			JSON.stringify( tableObject, null, 4 )
-		)
-	);
-
+	const filePromises = tableData.map( tableObject => fs.writeFile( `output/${tableObject.tablename}.json`, JSON.stringify( tableObject, null, 4 ) ) );
 	await Promise.all( filePromises );
 })();
-```
