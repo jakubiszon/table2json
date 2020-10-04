@@ -37,6 +37,12 @@ const fs = require( 'fs' ).promises;
 	// now tableData contains table objects
 	// what you do with them is up to you
 	// here we simply save them as files
-	const filePromises = tableData.map( tableObject => fs.writeFile( `output/${tableObject.tablename}.json`, JSON.stringify( tableObject, null, 4 ) ) );
+	const filePromises = tableData.map(
+		tableObject => fs.writeFile(
+			`output/${tableObject.tablename}.json`,
+			JSON.stringify( tableObject, null, 4 )
+		)
+	);
+	
 	await Promise.all( filePromises );
 })();
