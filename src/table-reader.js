@@ -16,6 +16,7 @@ async function tableReader ( databaseInterface, schemaname, tablename ) {
 
 	let tabledata = {
 		tablename: tablename,
+		table_schema : schemaname,
 		columns: [], //{} compare mssql and pgsql and get common info about the data type
 		foreignkeys: [],
 		uniquekeys: []
