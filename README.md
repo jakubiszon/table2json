@@ -71,10 +71,10 @@ await db.open({
 ```
 
 ### Connecting to sqlserver
-To connect to postgres you need to:
+To connect to sqlserver you need to:
   1. create a database interface by passing 'sqlserver' as the argument
 ```JS
-  	const db = table2json( 'sqlserver' );
+const db = table2json( 'sqlserver' );
 ```
   2. pass connection description object or a connection string to the `open` method, the passed data is consumed by **mssql** library and should be compatible with its formats, example:
 ```JS
