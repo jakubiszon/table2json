@@ -57,17 +57,17 @@ const fs = require( 'fs' ).promises;
 To connect to postgres you need to:
   1. create a database interface by passing 'postgres' as the argument
 ```JS
-  	const db = table2json( 'postgresql' );
+const db = table2json( 'postgresql' );
 ```
   2. pass connection description object to the `open` method, this object is consumed by the **pg** library and should be compatible with its specification
 ```JS
-	await db.open({
-		"host":"localhost",
-		"port":5432,
-		"database":"xxxxx",
-		"password":"xxxxx",
-		"user":"xxxxx"
-	});
+await db.open({
+	"host":"localhost",
+	"port":5432,
+	"database":"xxxxx",
+	"password":"xxxxx",
+	"user":"xxxxx"
+});
 ```
 
 ### Connecting to sqlserver
@@ -78,7 +78,7 @@ To connect to postgres you need to:
 ```
   2. pass connection description object or a connection string to the `open` method, the passed data is consumed by **mssql** library and should be compatible with its formats, example:
 ```JS
-{
+await db.open({
 	"password": "xxxxxxxxxxx",
 	"port": 1433,
 	"user": "xxxxxxxxxxx",
@@ -89,7 +89,7 @@ To connect to postgres you need to:
 		"enableArithAbort": true,
 		"encrypt": true
 	}
-}
+});
 ```
 Some remarks:
  - the sqlserver you connect to should accept TCP/IP connections
