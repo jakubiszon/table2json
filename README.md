@@ -59,7 +59,7 @@ To connect to postgres you need to:
 ```JS
 const db = table2json( 'postgresql' );
 ```
-  2. Pass connection description object to the `open` method, this object is consumed by the **pg** library and should be compatible with its specification
+  2. Pass connection description object to the `open` method, this object is consumed by the [pg library](https://www.npmjs.com/package/pg) and should be compatible with its specification
 ```JS
 await db.open({
 	"host":"localhost",
@@ -76,7 +76,7 @@ To connect to sqlserver you need to:
 ```JS
 const db = table2json( 'sqlserver' );
 ```
-  2. Pass connection description object or a connection string to the `open` method, the passed data is consumed by **mssql** library and should be compatible with its formats, example:
+  2. Pass connection description object or a connection string to the `open` method, the passed data is consumed by [mssql library](https://www.npmjs.com/package/mssql) and should be compatible with its formats, example:
 ```JS
 await db.open({
 	"password": "xxxxxxxxxxx",
