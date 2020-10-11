@@ -55,11 +55,11 @@ const fs = require( 'fs' ).promises;
 
 ### Connecting to postgres
 To connect to postgres you need to:
-  1. create a database interface by passing 'postgres' as the argument
+  1. Create a database interface by passing 'postgres' as the argument
 ```JS
 const db = table2json( 'postgresql' );
 ```
-  2. pass connection description object to the `open` method, this object is consumed by the **pg** library and should be compatible with its specification
+  2. Pass connection description object to the `open` method, this object is consumed by the **pg** library and should be compatible with its specification
 ```JS
 await db.open({
 	"host":"localhost",
@@ -72,11 +72,11 @@ await db.open({
 
 ### Connecting to sqlserver
 To connect to sqlserver you need to:
-  1. create a database interface by passing 'sqlserver' as the argument
+  1. Create a database interface by passing 'sqlserver' as the argument
 ```JS
 const db = table2json( 'sqlserver' );
 ```
-  2. pass connection description object or a connection string to the `open` method, the passed data is consumed by **mssql** library and should be compatible with its formats, example:
+  2. Pass connection description object or a connection string to the `open` method, the passed data is consumed by **mssql** library and should be compatible with its formats, example:
 ```JS
 await db.open({
 	"password": "xxxxxxxxxxx",
@@ -92,5 +92,5 @@ await db.open({
 });
 ```
 Some remarks:
- - the sqlserver you connect to should accept TCP/IP connections
- - if you use just a connction string or an object as above but without the `options` part, there will be a warning shown, despite the warning the program should run successfully
+ - The sqlserver you connect to should accept TCP/IP connections.
+ - If you use just a connection string or an object without the `options` part specified as above, there will be a warning shown. Despite the warning the program should run successfully.
