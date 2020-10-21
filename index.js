@@ -13,7 +13,7 @@ module.exports = function ( dbms ) {
 	function dbEngine ( dbms ) {
 		if( dbms == "sqlserver" ) return new msInterface();
 		if( dbms == "postgresql") return new pgInterface();
-		throw 'dbms name must be specified as either "sqlserver" or "postgresql"';
+		throw 'table2json - dbms name must be specified as either "sqlserver" or "postgresql"';
 	}
 
 	return {
