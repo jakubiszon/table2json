@@ -14,8 +14,9 @@ You will need to install this package to reference it
 ```
 npm install --save https://github.com/jakubiszon/table2json
 ```
+Requiring the package `require( 'table2json' )` will return a function. The function can be used to create a database interface object.
 
-Then you can require it and use in your program. There are just 2 functions reading data: `listTables` and `defineTable`. There also are `open` and `close` methods to manage tge connection.
+The db-interface object expose just 2 functions reading data: `listTables` and `defineTable`. There also are `open` and `close` methods to manage tge connection.
 
 Example usage:
 ```js
