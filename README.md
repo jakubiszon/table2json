@@ -15,6 +15,9 @@ You will need to install this package to reference it
 npm install --save https://github.com/jakubiszon/table2json
 ```
 
+Then you can require it and use in your program. There are just 2 functions reading data: `listTables` and `defineTable`. There also are `open` and `close` methods to manage tge connection.
+
+Example usage:
 ```js
 const table2json = require( 'table2json' );
 const fs = require( 'fs' ).promises;
