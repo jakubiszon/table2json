@@ -10,6 +10,10 @@ table2json is a minimalistic database structure reader. It can load structure da
 table2json was tested on postgres and sql-server but as it relies on **information_schema** views it might be plugged in to other DBMS *with some effort*.
 
 ## How to use it?
+You will need to install this package to reference it
+```
+npm install --save https://github.com/jakubiszon/table2json
+```
 
 ```js
 const table2json = require( 'table2json' );
