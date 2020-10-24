@@ -130,7 +130,7 @@ order by fks.constraint_name, kcu.ORDINAL_POSITION`;
 				lastFK = row.constraint_name;
 				tabledata.foreignkeys[tabledata.foreignkeys.length] = {
 					keyname: row.constraint_name,
-					tablename: row.table_name,
+					keytablename: row.table_name,
 					columns: []
 				}
 			}
