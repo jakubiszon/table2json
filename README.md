@@ -16,7 +16,7 @@ npm install --save https://github.com/jakubiszon/table2json
 ```
 Requiring the package `require( 'table2json' )` will return a function. The function can be used to create a database interface object.
 
-The db-interface object expose just 2 functions reading data: `listTables` and `defineTable`. There also are `open` and `close` methods to manage the connection.
+The db-interface object expose just 2 functions reading data: `listAllTables` and `defineTable`. There also are `open` and `close` methods to manage the connection.
 
 Example usage:
 ```js
@@ -33,16 +33,17 @@ const fs = require( 'fs' ).promises;
 	await db.open({
 		"host":"localhost",
 		"port":5432,
-		"database":"xxxxx",
-		"password":"xxxxx",
-		"user":"xxxxx"
+		"database":"xxx",
+		"password":"xxx",
+		"user":"xxx"
 	});
 
 	// get the list of tableNames for the schema public
-	let tableNames = await db.listTables( 'public' );
+	let tables = await db.listAllTables();
+	console.log(tables);
 
 	// get table definitions
-	const tableData = await Promise.all( tableNames.map( tname => db.defineTable( 'public', tname) ) );
+	const tableData = await Promise.all( tables.map( t => db.defineTable( t.table_schema, t.table_name )));
 
 	// close the reader now
 	await db.close( );
@@ -52,13 +53,20 @@ const fs = require( 'fs' ).promises;
 	// here we simply save them as files
 	const filePromises = tableData.map(
 		tableObject => fs.writeFile(
-			`output/${tableObject.tablename}.json`,
+			`output/${tableObject.table_schema}.${tableObject.table_name}.json`,
 			JSON.stringify( tableObject, null, 4 )
 		)
 	);
 
 	await Promise.all( filePromises );
 })();
+```
+
+For backwards compatibility, it is still possible to use the old `listTables` function
+but it requires you to know what schema you want to use in advance.
+```js
+// get the list of tableNames for the schema public
+let tableNames = await db.listTables( 'public' );
 ```
 
 ### Connecting to postgres
@@ -84,21 +92,16 @@ To connect to sqlserver you need to:
 ```JS
 const db = table2json( 'sqlserver' );
 ```
-  2. Pass connection description object or a connection string to the `open` method, the passed data is consumed by [mssql library](https://www.npmjs.com/package/mssql) and should be compatible with its formats, example:
+  2. Pass connection description object or a connection string to the `open` method. The format is identical to the one used when connecting to postgres.
 ```JS
+// example
 await db.open({
-	"password": "xxxxxxxxxxx",
+	"host": "localhost",
 	"port": 1433,
-	"user": "xxxxxxxxxxx",
-	"server": "localhost",
-	"database": "xxxxxxxxxxx",
-	"stream": false,
-	"options": {
-		"enableArithAbort": true,
-		"encrypt": true
-	}
+	"database": "xxxxx",
+	"password": "xxxxx",
+	"user": "xxxxx"
 });
 ```
-Some remarks:
+Note:
  - The sqlserver you connect to should accept TCP/IP connections.
- - If you use just a connection string or an object without the `options` part specified as above, there will be a warning shown. Despite the warning the program should run successfully.

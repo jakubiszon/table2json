@@ -9,7 +9,7 @@ const msInterface = require('./ms-interface.js');
 module.exports = function ( dbms ) {
 
 	if( dbms == "sqlserver" ) return new msInterface();
-	if( dbms == "postgresql") return new pgInterface();
+	if( dbms == "postgresql" ) return new pgInterface();
 	throw 'dbms name must be specified as either "sqlserver" or "postgresql"';
 
 };

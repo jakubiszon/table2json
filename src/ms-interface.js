@@ -1,3 +1,4 @@
+const dbTypes = require( '../definitions/dbTypes' );
 const mssql = require('mssql');
 
 module.exports = function () {
@@ -7,8 +8,12 @@ module.exports = function () {
 
 	this.dbms = "sqlserver";
 
-	this.open = async function ( connectionString ) {
-		pool = await new mssql.ConnectionPool( connectionString ).connect();
+	/**
+	 * @param {dbTypes.dbConnection|string} connectionSpec 
+	 */
+	this.open = async function ( connectionSpec ) {
+		const connectionString = toConnectionString( connectionSpec );
+		pool = await mssql.connect( connectionString );
 	};
 
 	this.close = async function ( ) {
@@ -39,4 +44,27 @@ function lowerCaseObject(obj) {
 		result[a.toLowerCase()] = obj[a];
 	}
 	return result;
+}
+
+/**
+ * @param {dbTypes.dbConnection|string} connectionSpec 
+ * @returns {string} connection string
+ */
+function toConnectionString( connectionSpec ) {
+
+	if( typeof connectionSpec === 'string' )
+	{
+		return connectionSpec
+	}
+	else
+	{
+		// we assume connectionSpec must be an object
+		const server = connectionSpec.host || 'localhost';
+		const port = connectionSpec.port || 1433;
+		const usr = connectionSpec.user;
+		const db = connectionSpec.database;
+		const pwd = connectionSpec.password;
+		const connectionString = `Server=${server},${port};Database=${db};User Id=${usr};Password=${pwd};TrustServerCertificate=true;`;
+		return connectionString;
+	}
 }

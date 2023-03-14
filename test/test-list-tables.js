@@ -1,27 +1,17 @@
-const dbReader= require('../index');
+const dbReader= require( '../index' );
+const connections = require( './connections.json');
 
-async function test( ) {
-	reader = dbReader( "sqlserver" );
+async function test( dbms ) {
+	dbms = dbms || "postgresql";
 
-	let sqlConfig = {
-		password: 'a',
-		database: 'company_microservice',
-		stream: false,
-		options: {
-			enableArithAbort: true,
-			encrypt: true
-		},
-		port: 1433,
-		user: 'haslo_a',
-		server: 'localhost',
-	}
+	const reader = dbReader( dbms );
+	await reader.open( connections[ dbms ]);
 
-	await reader.open( sqlConfig );
+	let tableNames = await reader.listTables( dbms === "sqlserver" ? 'dbo' : 'public' );
+	console.dir( tableNames );
 
-	let tables = await reader.listTables( 'dbo' );
-
-	if( !tables ) console.log( "table is empty" );
-	else console.dir( tables );
+	let tableDefinitions = await reader.listAllTables();
+	console.dir( tableDefinitions );
 
 	await reader.close();
 }

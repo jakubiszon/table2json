@@ -1,28 +1,17 @@
 const dbReader = require('../index');
-
-let sqlConfig = {
-	password: 'a',
-	database: 'company_microservice',
-	stream: false,
-	options: {
-		enableArithAbort: true,
-		encrypt: true
-	},
-	port: 1433,
-	user: 'haslo_a',
-	server: 'localhost',
-}
+const connections = require( './connections.json');
 
 async function test() {
-	let db = dbReader( "sqlserver" );
-	await db.open( sqlConfig );
-	let tables = await db.listTables( 'dbo' );
-	let tableData = await Promise.all( tables.map( tname => db.defineTable( 'dbo', tname) ) );
+	let dbms = "sqlserver";
+	let reader = dbReader( dbms );
+	await reader.open( connections[ dbms ]);
+	let tables = await reader.listTables( dbms === "sqlserver" ? 'dbo' : 'public' );
+	let tableData = await Promise.all( tables.map( tname => reader.defineTable( 'dbo', tname) ) );
 
 	console.log( tables );
 	console.dir( tableData );
 
-	await db.close();
+	await reader.close();
 }
 
 test();

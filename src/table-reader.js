@@ -2,33 +2,39 @@
 // contains functions reading table specific data from the database
 //
 
-const async = require('async');
+const dbTypes = require( '../definitions/dbTypes' );
 
 module.exports = tableReader;
 
 /**
  * @function tableReader returns a promise resolving to table data for a table of the specified name
+ * @param {object} databaseInterface
  * @param {string} schemaname 
  * @param {string} tablename name of the table to process
  * @returns {Promise} promise resolving to table data object
  */
 async function tableReader ( databaseInterface, schemaname, tablename ) {
 
+	let tableRecords = await databaseInterface.query(
+		`select * from information_schema.tables where table_schema = $1 and table_name = $2`,
+		[ schemaname, tablename ]
+	)
+
+	if( !tableRecords || !tableRecords.length ) return null;
+
 	let tabledata = {
-		tablename: tablename,
-		table_schema : schemaname,
+		...tableRecords[0],
+		tablename: tableRecords[0].table_name, // name repeated in old format for backwards compatibility
 		columns: [], //{} compare mssql and pgsql and get common info about the data type
 		foreignkeys: [],
 		uniquekeys: []
 	};
 
-	//console.log('started table: ', tabledata.tablename);
 	await readColumns();
 	await readPrimaryKey();
 	await readPKColumns();
 	await readForeignKeys();
 	await readUniqueKeys();
-	//console.log('returning table: ', tabledata.tablename);
 	return tabledata;
 
 	async function readColumns ( ) {
